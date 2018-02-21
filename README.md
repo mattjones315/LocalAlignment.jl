@@ -2,7 +2,7 @@
 
 | **Build Status** |
 |:---:|
-| [![][travis-img]][travis-url] [![][codecov-img]][codecov-url] |
+| [![][travis-img]][travis-url] |
 
 Dynamic Programming local alignment using the Smith-Waterman algorithm. Takes in FASTA sequence files and will return an optimal alignment of the the sequences.
 
