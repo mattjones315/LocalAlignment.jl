@@ -12,6 +12,14 @@ function main()
 
     if command == "ls"
         foreach(x -> println(x), ls())
+    elseif command == "align_many"
+        align_many(parsed_args[command]["algorithm"],
+        parsed_args[command]["gap_penalty"],
+        parsed_args[command]["extension_penalty"],
+        parsed_args[command]["sequences"],
+        parsed_args[command]["score_mat"],
+        parsed_args[command]["output_file"]
+        )
     else
         align(parsed_args[command]["algorithm"],
         parsed_args[command]["gap_penalty"],

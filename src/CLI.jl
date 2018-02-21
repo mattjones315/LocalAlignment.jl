@@ -11,6 +11,9 @@ function build_arg_table()
         "ls"
             action = :command
             help = "list all modified simulations available"
+        "align_many"
+            action = :command
+            help = "run package for multiple different sequences at once"
     end
 
     settings["ls"].description = "Prints out the chosen algorithm for sequence alginment. "
@@ -47,6 +50,36 @@ function build_arg_table()
     end
 
     settings["align"].description
+
+    @add_arg_table settings["align_many"] begin
+        "--addprocs", "-p"
+            help = "Add additional processors"
+            arg_type = Int
+            default = 0
+        "--algorithm", "-a"
+            help = "Which algorithm to run"
+            arg_type = Compat.String
+            default = "smithwaterman"
+        "--gap_penalty", "-g"
+            help = "Gap penalty"
+            arg_type = Float64
+            default = 1.0
+        "--extension_penalty", "-e"
+            help = "Penalty for extending a gap"
+            arg_type = Float64
+            default = 1.0
+        "--score_mat", "-s"
+            help = "File path for scoring matrix"
+            required = true
+        "sequences"
+            help = "File containing list of FASTA files"
+            required = true
+        "output_file"
+            help = "File to output results to [.CSV, .TSV, etc]"
+            required = true
+    end
+
+    settings["align_many"].description
 
     if typeof(Base.source_dir()) != Void
         settings.epilog = readstring(normpath(joinpath(Base.source_dir(),"..","LICENSE")))

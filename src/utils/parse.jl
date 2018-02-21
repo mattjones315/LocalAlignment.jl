@@ -50,3 +50,26 @@ function parse_score_matrix(sm_fp)
     sm
 
 end
+
+function parse_seq_list(seqs_fp, sm_fp)
+
+    seqs = []
+
+    f = open(seqs_fp)
+    lines = readlines(f)
+
+    for l in lines
+        seq_pair = strip.(split(l));
+        seq_pair = convert.(String, seq_pair);
+        seq1 = readfasta(seq_pair[1])[1][2]
+        seq2 = readfasta(seq_pair[2])[1][2];
+        push!(seqs, [seq1, seq2])
+    end
+
+    close(f)
+
+    sm = parse_score_matrix(sm_fp)
+
+    seqs, sm
+
+end
