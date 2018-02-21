@@ -1,0 +1,7 @@
+julia 0.6
+Distributions
+DataFrames
+CSV
+ArgParse
+FastaIO
+Compat v0.17.0

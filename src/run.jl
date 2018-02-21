@@ -1,5 +1,4 @@
 using ArgParse
-using YAML
 using Compat
 import Compat: UTF8String, ASCIIString, view, readstring, foreach
 
