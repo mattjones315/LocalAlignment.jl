@@ -33,4 +33,4 @@ build_script:
       Pkg.clone(pwd(), \"LocalAlignment\"); Pkg.build(\"LocalAlignment\")"
 
 test_script:
-  - C:\projects\julia\bin\julia -e "Pkg.test(\"Alignment\")"
+  - C:\projects\julia\bin\julia -e "Pkg.test(\"LocalAlignment\")"
