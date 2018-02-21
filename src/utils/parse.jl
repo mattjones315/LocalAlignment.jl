@@ -51,7 +51,7 @@ function parse_score_matrix(sm_fp)
 
 end
 
-function parse_seq_list(seqs_fp, sm_fp)
+function parse_list(seqs_fp)
 
     seqs = []
 
@@ -68,8 +68,25 @@ function parse_seq_list(seqs_fp, sm_fp)
 
     close(f)
 
-    sm = parse_score_matrix(sm_fp)
+    seqs
+
+end
+
+function parse_seq_list(seqs_fp, sm_fp)
+
+    seqs = parse_list(seqs_fp);
+    sm = parse_score_matrix(sm_fp);
 
     seqs, sm
+
+end
+
+function parse_for_benchmarking(pos_seqs_fp, neg_seqs_fp, sm_fp)
+
+    pos_seqs = parse_list(pos_seqs_fp)
+    neg_seqs = parse_list(neg_seqs_fp)
+    sm = parse_score_matrix(sm_fp)
+
+    pos_seqs, neg_seqs, sm
 
 end

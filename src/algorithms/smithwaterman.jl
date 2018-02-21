@@ -40,7 +40,7 @@ function sw_align(seq1, seq2, smat, gp, ep, out_fp; write_align = true)
 
 end
 
-function many_sw_align(seqs, smat, gp, ep, out_fp)
+function many_sw_align(seqs, smat, gp, ep, out_fp; write_output=true)
 
     scores = [];
 
@@ -57,11 +57,15 @@ function many_sw_align(seqs, smat, gp, ep, out_fp)
 
     end
 
-    open(out_fp, "w") do f
-        for s in scores
-            write(f, string(s, '\t'));
+    if write_output
+        open(out_fp, "w") do f
+            for s in scores
+                write(f, string(s, '\t'));
+            end
+            write(f, '\n');
         end
-        write(f, '\n');
+    else
+        scores
     end
 
 end

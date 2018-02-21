@@ -20,6 +20,13 @@ function main()
         parsed_args[command]["score_mat"],
         parsed_args[command]["output_file"]
         )
+    elseif command == "compare_pr"
+        compare_pr(parsed_args[command]["algorithm"],
+        parsed_args[command]["pos_seqs"],
+        parsed_args[command]["neg_seqs"],
+        parsed_args[command]["score_mat"],
+        parsed_args[command]["output_file"],
+        parsed_args[command]["tpr"])
     else
         align(parsed_args[command]["algorithm"],
         parsed_args[command]["gap_penalty"],
