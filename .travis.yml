@@ -11,7 +11,7 @@ matrix:
 notifications:
   email: false
 script:
-  #- if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
-  #- julia -e 'Pkg.clone(pwd()); Pkg.build("$name"); using Coverage; Codecov.sumbit(process_folder())'
-  - julia -e 'Pkg.clone(pwd()); Pkg.build("$name"); using Coverage;'
+  - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
+  - julia -e 'Pkg.clone(pwd())'
+  - julia -e 'Pkg.test("LocalAlignment", coverage=true)'
 after_success:
