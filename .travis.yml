@@ -14,5 +14,5 @@ script:
   - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
   - julia -e 'Pkg.clone(pwd())'
   - julia -e 'Pkg.build(pwd())'
-  - julia -e 'Pkg.test(pwd()), coverage=true)'
+  - julia -e 'Pkg.test(pwd(), coverage=true)'
 after_success:

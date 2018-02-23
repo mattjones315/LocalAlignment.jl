@@ -9,8 +9,8 @@ function main()
     parsed_args = parse_args(build_arg_table())
     command = parsed_args["%COMMAND%"]
 
-    if command == "ls"
-        foreach(x -> println(x), ls())
+    if command == "help"
+        foreach(x -> println(x), help())
     elseif command == "align_many"
         align_many(parsed_args[command]["algorithm"],
         parsed_args[command]["gap_penalty"],
