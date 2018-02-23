@@ -11,6 +11,7 @@ matrix:
 notifications:
   email: false
 script:
-  - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
-  - julia -e 'Pkg.clone(pwd()); Pkg.build("bmi-hw-3"); using Coverage; Codecov.sumbit(process_folder())'
+  #- if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
+  #- julia -e 'Pkg.clone(pwd()); Pkg.build("$name"); using Coverage; Codecov.sumbit(process_folder())'
+  - julia -e 'Pkg.clone(pwd()); Pkg.build("$name"); using Coverage;'
 after_success:
