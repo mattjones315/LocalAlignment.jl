@@ -2,7 +2,7 @@ using DataFrames;
 using Distributions;
 
 #source_dir = typeof(Base.source_dir()) == Void ? joinpath(Pkg.dir("LocalAlignment"), "src") : Base.source_dir()
-source_dir = "."
+source_dir = pwd()
 
 include(joinpath(source_dir, "src", "algorithms", "smithwaterman.jl"));
 include(joinpath(source_dir, "src", "utils", "parse.jl"));
