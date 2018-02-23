@@ -17,15 +17,26 @@ function main()
         parsed_args[command]["extension_penalty"],
         parsed_args[command]["sequences"],
         parsed_args[command]["score_mat"],
-        parsed_args[command]["output_file"]
+        parsed_args[command]["output_file"],
+        parsed_args[command]["write_alignments"]
         )
     elseif command == "compare_pr"
         compare_pr(parsed_args[command]["algorithm"],
         parsed_args[command]["pos_seqs"],
         parsed_args[command]["neg_seqs"],
         parsed_args[command]["score_mat"],
+        parsed_args[command]["gp_min"],
+        parsed_args[command]["gp_max"],
         parsed_args[command]["output_file"],
         parsed_args[command]["tpr"])
+    elseif command == "roc"
+        bench_roc(parsed_args[command]["algorithm"],
+        parsed_args[command]["pos_seqs"],
+        parsed_args[command]["neg_seqs"],
+        parsed_args[command]["score_mat"],
+        parsed_args[command]["gap_penalty"],
+        parsed_args[command]["extension_penalty"],
+        parsed_args[command]["output_file"])
     else
         align(parsed_args[command]["algorithm"],
         parsed_args[command]["gap_penalty"],

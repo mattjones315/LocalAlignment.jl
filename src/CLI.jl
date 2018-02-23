@@ -17,6 +17,9 @@ function build_arg_table()
         "compare_pr"
             action = :command
             help = "run package for benchmarking the false positive rate"
+        "roc"
+            action = :command
+            help = "run package for generating ROC data between pos and neg pairs"
     end
 
     settings["ls"].description = "Prints out the chosen algorithm for sequence alginment. "
@@ -74,6 +77,9 @@ function build_arg_table()
         "--score_mat", "-s"
             help = "File path for scoring matrix"
             required = true
+        "--write_alignments"
+            help = "Write all alignments"
+            default = false
         "sequences"
             help = "File containing list of FASTA files"
             required = true
@@ -100,6 +106,14 @@ function build_arg_table()
             help = "true positive rate for thresholding"
             arg_type = Float64
             default = 0.7
+        "--gp_min"
+            help = "minimum gap penalty to test"
+            arg_type = Int64
+            default = 1
+        "--gp_max"
+            help = "maximum gap penalty to test"
+            arg_type = Int64
+            default = 20
         "pos_seqs"
             help = "File containing list of 'positive' FASTA files"
             required = true
@@ -111,7 +125,40 @@ function build_arg_table()
             required = true
     end
 
-    settings["align_many"].description
+    settings["compare_pr"].description
+
+    @add_arg_table settings["roc"] begin
+        "--addprocs", "-p"
+            help = "Add additional processors"
+            arg_type = Int
+            default = 0
+        "--algorithm", "-a"
+            help = "Which algorithm to run"
+            arg_type = Compat.String
+            default = "smithwaterman"
+        "--score_mat", "-s"
+            help = "File path for scoring matrix"
+            required = true
+        "--gap_penalty", "-g"
+            help = "Gap penalty"
+            arg_type = Float64
+            default = 1.0
+        "--extension_penalty", "-e"
+            help = "Penalty for extending a gap"
+            arg_type = Float64
+            default = 1.0
+        "pos_seqs"
+            help = "File containing list of 'positive' FASTA files"
+            required = true
+        "neg_seqs"
+            help = "File containing a list of 'negative' FASTA files"
+            required = true
+        "output_file"
+            help = "File to output results to [.CSV, .TSV, etc]"
+            required = true
+    end
+
+    settings["roc"].description
 
     if typeof(Base.source_dir()) != Void
         settings.epilog = readstring(normpath(joinpath(Base.source_dir(),"..","LICENSE")))

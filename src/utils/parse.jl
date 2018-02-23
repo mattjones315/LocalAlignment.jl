@@ -25,7 +25,9 @@ function parse_score_matrix(sm_fp)
     while lines[i][1] == '#'
         i += 1
     end
-    aas = strip.(split(lines[i], "  "));
+    #aas = strip.(split(lines[i], "  "));
+    aas = strip.(split(lines[i]))
+    aas = [convert(String, aa) for aa in aas];
     i += 1
 
     N = length(aas);

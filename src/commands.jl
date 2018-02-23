@@ -35,7 +35,8 @@ function align_many(algorithm::Compat.String,
                 extension_penalty::Float64,
                 seqs::Compat.String,
                 smat::Compat.String,
-                outputfile::Compat.String)
+                outputfile::Compat.String,
+                write_alignments::Bool)
 
     if algorithm == "smithwaterman"
         include(joinpath(source_dir, "algorithms", "smithwaterman.jl"));
@@ -48,8 +49,8 @@ function align_many(algorithm::Compat.String,
 end
 
 """
-compare_pr(algorithm::Compat.String, pos_seqs::Compat.String, smat::Compat.String,
-                outputfile::Compat.String)
+compare_pr(algorithm::Compat.String, pos_seqs::Compat.String, neg_seqs:: Compat.String, smat::Compat.String,
+                gpmin::Int, gpmax::Int, outputfile::Compat.String)
 Calculate False Positive Rate (FPR) and True Positive Rate (TPR) for pos_seqs and
 neg_seqs.
 """
@@ -57,8 +58,10 @@ function compare_pr(algorithm::Compat.String,
                 pos_seqs::Compat.String,
                 neg_seqs::Compat.String,
                 smat::Compat.String,
+                gpmin::Int,
+                gpmax::Int,
                 outputfile::Compat.String,
-				tpr::Float64)
+	tpr::Float64)
 
     if algorithm == "smithwaterman"
         include(joinpath(source_dir, "algorithms", "smithwaterman.jl"));
@@ -66,7 +69,31 @@ function compare_pr(algorithm::Compat.String,
         include(joinpath(source_dir, "utils", "benchmarking.jl"))
 
         Base.invokelatest(benchmark_fpr_vs_tpr, Base.invokelatest(parse_for_benchmarking, pos_seqs, neg_seqs, smat)...,
-                outputfile, tpr)
+                gpmin, gpmax, outputfile, tpr)
+     end
+
+end
+
+"""
+bench_roc(algorithm::Compat.String, pos_seqs::Compat.String, neg_seqs::Compat.String, smat::Compat.String,
+                g::Float64, e::Float64, outtputfile::Compat.String)
+Create an ROC for benchmarking score matrices.
+"""
+function bench_roc(algorithm::Compat.String,
+                pos_seqs::Compat.String,
+                neg_seqs::Compat.String,
+                smat::Compat.String,
+                g::Float64,
+                e::Float64,
+                outputfile::Compat.String)
+
+    if algorithm == "smithwaterman"
+        include(joinpath(source_dir, "algorithms", "smithwaterman.jl"));
+        include(joinpath(source_dir, "utils", "parse.jl"));
+        include(joinpath(source_dir, "utils", "benchmarking.jl"))
+
+        Base.invokelatest(roc, Base.invokelatest(parse_for_benchmarking, pos_seqs, neg_seqs, smat)...,
+                g, e, outputfile)
      end
 
 end
