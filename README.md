@@ -39,3 +39,24 @@ julia src/run.jl align -s scoring/BLOSUM50 -g 5 -e 3 sequences/test1.fa sequence
 This will run the Smith Waterman algorithm to align "test1.fa" and "test2.fa" with a gap
 penalty of 5 and extension penalty of 3. The scoring matrix can be specified with the
 -s flag. The alignment and score are written out to `output.txt`.
+
+You can also align multiple pairs of sequences and store the alignments in some file:
+
+```
+julia src/run.jl align_many -s scoring/BLOSUM50 -g 5 -e 3 scoring/Pospairs.txt output.txt
+```
+
+The package also supports functionality for outputting data for a ROC curve:
+
+```
+julia src/run.jl roc -s scoring/BLOSUM50 -g 5 -e 3 scoring/Pospairs.txt scoring/Negpairs.txt roc.output.txt
+```
+
+Finally, you can optimize a given substitution matrix:
+
+```
+julia src/utils/optimize_score_matrix scoring/MATIO .1 100 pos_alignments neg_alignments
+```
+
+for a simulated annealing parameter `T = .1` and for `N = 100` iterations. Pass static positive
+alignments in `pos_alignments` and static negative alignments in `neg_alignments`.

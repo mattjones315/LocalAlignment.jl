@@ -1,6 +1,16 @@
 using DataFrames;
 using CSV;
 
+"""
+benchmark_fpr_vs_trp(pos_seqs::Array, neg_seqs::Array, smat::DataFrame, gp_min::Float64,
+                        gp_max::Float64, out_fp::String, tpr::Float64)
+Benchmark the False Positive Rates at the given true positive rate TPR for positive
+sequences in POS_SEQS and negative sequences in NEG_SEQS subject to substitution
+matrix SMAT. Iterate over parameters -- extension penalties between 1 and 5, and
+gap penalties between GP_MIN and GP_MAX. Write a table out to OUT_FP storing
+the false positive rates for a given set of parameters.
+"""
+
 function benchmark_fpr_vs_tpr(pos_seqs, neg_seqs, smat, gp_min, gp_max, out_fp, tpr)
 
     gps = [i for i in gp_min:gp_max];
@@ -34,6 +44,10 @@ function benchmark_fpr_vs_tpr(pos_seqs, neg_seqs, smat, gp_min, gp_max, out_fp, 
     CSV.write(out_fp, fpr_df, delim='\t');
 end
 
+"""
+find_tp_threshold(scores::Array, tpr::Float64)
+Find the score threshold in SCORES for a true positive rate of TPR.
+"""
 function find_tp_threshold(scores, tpr)
     for i in linspace(minimum(scores), maximum(scores), 200)
 
@@ -47,6 +61,12 @@ function find_tp_threshold(scores, tpr)
 
 end
 
+"""
+roc(pos_seqs::Array, neg_seqs::Array, smat::DataFrame, gp::Float64, ep::Float64, out_fp::String)
+For a given gap penalty GP, extension penalty EP, and scoring matrix SMAT, construct the
+ROC curve for pos_seqs and neg_seqs. Write output to OUT_FP consisting of coordinates in the form
+(FPR, TPR).
+"""
 function roc(pos_seqs, neg_seqs, smat, gp, ep, out_fp)
 
     pos_scores = many_sw_align(pos_seqs, smat, gp, ep, out_fp; write_output=false)

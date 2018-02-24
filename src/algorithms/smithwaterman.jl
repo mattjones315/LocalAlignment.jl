@@ -40,6 +40,13 @@ function sw_align(seq1, seq2, smat, gp, ep, out_fp; write_align = true)
 
 end
 
+"""
+many_sw_align(seqs::Array, smat::DataFrame, gp::Float64, ep::Float64, out_fp::String)
+Align a set of sequences in SEQS with the Smith-Waterman algorithm. Use the gap penalty
+GP and extension penalty EP and score according to the scoring matrix SMAT.
+Stores the result in OUT_FP.
+
+"""
 function many_sw_align(seqs, smat, gp, ep, out_fp; write_output=true, normalize=false,
                         write_alignments = true)
 
@@ -83,6 +90,12 @@ function many_sw_align(seqs, smat, gp, ep, out_fp; write_output=true, normalize=
     end
 
 end
+
+"""
+sw_traceback(seq1::String, seq2::String, H::DataFrame, out_fp::String)
+Reconstruct the optimal alignment given the alignment matrix H and the two
+alignments SEQ1 and SEQ2. Write output to OUT_FP.
+"""
 
 function sw_traceback(seq1, seq2, H, out_fp)
 
@@ -143,6 +156,12 @@ function sw_traceback(seq1, seq2, H, out_fp)
     return
 
 end
+
+"""
+sw_traceback_many(seqs::Array, Hs::Array, out_fp::String)
+Reconstruct the optimal alignments for all the sequences pairs in SEQS,
+where there is an accompanying alignment matrix H in Hs. Write output to OUT_FP.
+"""
 
 function sw_traceback_many(seqs, Hs, out_fp)
 

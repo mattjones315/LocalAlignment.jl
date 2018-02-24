@@ -8,6 +8,19 @@ include(joinpath(source_dir, "src", "algorithms", "smithwaterman.jl"));
 include(joinpath(source_dir, "src", "utils", "parse.jl"));
 include(joinpath(source_dir, "src", "utils", "benchmarking.jl"));
 
+sfp = ARGS[1];
+T = ARGS[2];
+N = ARGS[3];
+pos_a_fp = ARGS[4];
+neg_a_fp = ARGS[5];
+
+"""
+optimize(S::DataFrame, T::Float64, N::Int, g::Float64, e::Float64, pos_a_fp::String, neg_a_fp::String)
+Optimize the scoring matrix S with a Monte Carlo-Markov Chain algorithm with simulated
+annealing paramter T over N iterations. Score postive alignments in POS_A_FP and
+negative alignments in NEG_A_FP with gap penalty G and extension penalty E. Objective function
+is the sum of TPRs for FPRs = [0.0, 0.1, 0.2, 0.3, 0.4].
+"""
 function optimize(S, T, N, g, e, pos_a_fp, neg_a_fp)
 
     pos_aligns = parse_alignments(pos_a_fp);
@@ -68,6 +81,11 @@ function optimize(S, T, N, g, e, pos_a_fp, neg_a_fp)
 
 end
 
+"""
+eval_objective_function(pos_scores::Array, neg_scores::Array)
+Evaluate the objective function for sequence optimization on positive scores POS_SCORES and
+negative scores NEG_SCORES.
+"""
 function eval_objective_function(pos_scores, neg_scores)
 
     val = 0.0
@@ -81,6 +99,11 @@ function eval_objective_function(pos_scores, neg_scores)
     return val
 end
 
+"""
+score_alignment(align1::String, align2::String, S::DataFrame, g::Float64, e::Float64)
+Score the alignment stored in ALIGN1 and ALIGN2 according to the substitution score
+matrix S, gap penalty G and extension penalty E.
+"""
 function score_alignment(align1, align2, S, g, e)
 
     score = 0.0
@@ -116,6 +139,10 @@ function score_alignment(align1, align2, S, g, e)
 
 end
 
+"""
+parse_alignment(fp::String)
+Parse alignment file in FP and return list of alignment pairs.
+"""
 function parse_alignments(fp)
 
     alignments = []
@@ -135,6 +162,11 @@ function parse_alignments(fp)
 
 end
 
+"""
+gen_new_matrix(S::DataFrame)
+Generate a new symmetric substitution matrix from S by adding random normal noise
+to each subsitution value.
+"""
 function gen_new_matrix(S)
 
     Sp = deepcopy(S)
@@ -155,3 +187,9 @@ function gen_new_matrix(S)
     Sp
 
 end
+
+S = parse_score_matrix(sfp);
+
+S2 = optimize(S, T, N, pos_a_fp, neg_a_fp);
+
+writetable("opt_scor_matrix.txt", S2, quotemark=' ')

@@ -2,7 +2,7 @@ using FastaIO;
 using DataFrames;
 
 """
-Base.parse_input(seq_fp1::String, seq_fp2::String, sm_fp::String)
+parse_input(seq_fp1::String, seq_fp2::String, sm_fp::String)
 Read in FASTA files from SEQ_FP1 and SEQ_FP2 and the substitution matrix
 stored in SM_FP.
 
@@ -17,6 +17,10 @@ function parse_input(seq_fp1, seq_fp2, sm_fp)
     seq1, seq2, sm
 end
 
+"""
+parse_score_matrix(sm_fp::String)
+Read in subsitution matrix from SM_FP and return a DataFrame.
+"""
 function parse_score_matrix(sm_fp)
 
     f = open(sm_fp);
@@ -52,7 +56,10 @@ function parse_score_matrix(sm_fp)
     sm
 
 end
-
+"""
+parse_list(seqs_fp::String)
+Read in a set of sequences to be aligned, store in an Array.
+"""
 function parse_list(seqs_fp)
 
     seqs = []
@@ -73,7 +80,11 @@ function parse_list(seqs_fp)
     seqs
 
 end
-
+"""
+parse_seq_list(seqs_fp::String, sm_fp::String)
+Read in a set of sequences to be aligned, store in an Array; read in the
+substitution score matrix stored at SM_FP as well. Parsing function for some analyses.
+"""
 function parse_seq_list(seqs_fp, sm_fp)
 
     seqs = parse_list(seqs_fp);
@@ -83,6 +94,11 @@ function parse_seq_list(seqs_fp, sm_fp)
 
 end
 
+"""
+parse_for_benchmarking(pos_seqs_fp, neg_seqs_fp, sm_fp)
+Read in set of positive sequence pairs POS_SEQS_FP and negative sequence pairs
+NEG_SEQS_FP for ROC benchmarking. Also read in the score matrix stored in SM_FP. 
+"""
 function parse_for_benchmarking(pos_seqs_fp, neg_seqs_fp, sm_fp)
 
     pos_seqs = parse_list(pos_seqs_fp)
